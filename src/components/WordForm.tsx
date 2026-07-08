@@ -33,7 +33,7 @@ export const WordForm = ({onWordSubmit,disabled,className,...props}: WordFormPro
     return(
         <form className={cn("flex flex-col items-center gap-4", className)}
         onSubmit={handleSubmit} {...props}>
-            <Input className="text-center" type="text" placeholder="Ingrese una palabra" maxLength={25} 
+            <Input className="text-center" type="text" placeholder="Ingrese una palabra" maxLength={20} 
             value={word} onChange={handleInputChange} disabled={disabled}/>
             <Button type="submit" disabled={disabled}>Enviar</Button>
         </form>

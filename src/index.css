@@ -24,6 +24,9 @@
   select {
     font: inherit;
   }
+  input{
+    text-decoration: none;
+  }
 
   button {
     cursor: pointer;
