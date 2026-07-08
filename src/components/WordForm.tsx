@@ -15,7 +15,7 @@ export const WordForm = ({onWordSubmit,disabled,className,...props}: WordFormPro
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formattedWord = word.trim().toLowerCase();
+        const formattedWord = word.trim().toUpperCase();
 
         if (!formattedWord) return;
 
