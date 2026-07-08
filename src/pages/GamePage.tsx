@@ -1,7 +1,14 @@
+import { WordForm } from "@/components/WordForm";
+
+
 export default function GamePage() {
+    const handleWordSubmit  = (word:string)=>{
+        console.log(word)
+    }
+
     return (
     <div>
-        <div>aedfaefadfv</div>
+        <WordForm onWordSubmit={handleWordSubmit } />
     </div>
     );
 }
