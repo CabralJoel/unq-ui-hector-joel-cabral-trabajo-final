@@ -9,7 +9,7 @@ export const WordsHistory=({words,className,...props}:WordsHistoryProps)=>{
     const history = [...words].reverse();
 
     return(
-        <aside className={cn("border min-h-[600px] rounded min-w-100",className)} {...props}>
+        <aside className={cn("border min-h-150 rounded min-w-101",className)} {...props}>
             <section className="flex flex-col border-b text-center p-4 gap-2">
                 <h2 >Última palabra</h2>
 
