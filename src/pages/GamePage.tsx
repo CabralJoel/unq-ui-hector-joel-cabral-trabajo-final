@@ -1,3 +1,4 @@
+import { ScorePanel } from "@/components/ScorePanel";
 import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
 import { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ const TIMER = 3;
 
 export default function GamePage() {
     const [words,setWords] = useState<string[]>([]);
+    const [score,setScore] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState(TIMER);
     const [gameStarted, setGameStarted] = useState(false);
 
@@ -17,6 +19,7 @@ export default function GamePage() {
         }
 
         setTimeRemaining(TIMER);
+        setScore((previousScore) => previousScore + 1);
         setWords((previousWords) => [...previousWords, word]);
     }
 
@@ -24,8 +27,9 @@ export default function GamePage() {
         console.log("fin de la partida");
 
         setWords([]);
-        setGameStarted(false)
+        setGameStarted(false);
         setTimeRemaining(TIMER);
+        setScore(0);
     }
 
     useEffect(() => {
@@ -54,14 +58,14 @@ export default function GamePage() {
         </header>
 
         <div className="flex flex-1 py-8">
-            <WordsHistory words={words}/>
-            <section className="flex flex-col flex-1 items-center gap-8">
+            <WordsHistory className="min-w-101" words={words}/>
+            <section className="flex flex-col flex-2 items-center gap-8">
                     <span>Tiempo: {gameStarted ? String(timeRemaining).padStart(2, "0") : "--"}</span>
                 <div>letra actual a usar</div>
                 <WordForm className="justify-center" onWordSubmit={handleWordSubmit } />
                 <div>mensaje a mostrar</div>
             </section>
-            <div className="w-100"></div>
+            <ScorePanel className="min-w-101" score={score}/>
         </div>
         
     </main >
