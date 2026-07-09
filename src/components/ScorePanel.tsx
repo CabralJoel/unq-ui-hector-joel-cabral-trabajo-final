@@ -6,9 +6,9 @@ type ScorePanelProps = React.ComponentProps<"div"> & {
 
 export const ScorePanel = ({score,className,...props}:ScorePanelProps) => {
     return(
-        <div className={cn("flex flex-col text-center border p-8 gap-4",className)}{...props}>
+        <aside className={cn("flex flex-col text-center border p-8 gap-4",className)}{...props}>
             <span>Puntaje</span>
             <span>{score}</span>
-        </div>
+        </aside>
     )
 }

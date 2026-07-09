@@ -58,13 +58,13 @@ export default function GamePage() {
 }, [gameStarted]);
 
     return (
-    <main className="flex flex-col min-h-svh p-8">
+    <main className="flex flex-col h-svh p-8">
         <header className="flex justify-center py-8">
             <h1 className="text-3xl">Palabras encadenadas</h1>
         </header>
 
         <div className="flex flex-1 py-8">
-            <WordsHistory className="min-w-101 max-h-690" words={words}/>
+            <WordsHistory className="min-w-101 max-h-172.5" words={words}/>
             <section className="flex flex-col flex-2 items-center gap-8">
                 <span>Tiempo: {gameStarted ? String(timeRemaining).padStart(2, "0") : "--"}</span>
                 <div>letra actual a usar</div>
