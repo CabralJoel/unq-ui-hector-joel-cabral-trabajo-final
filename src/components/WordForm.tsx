@@ -5,11 +5,10 @@ import { cn } from "@/lib/utils";
 
 type WordFormProps = React.ComponentProps<"form"> & {
     onWordSubmit: (word: string) => void;
-    disabled?: boolean;
 };
 
 
-export const WordForm = ({onWordSubmit,disabled,className,...props}: WordFormProps) => {
+export const WordForm = ({onWordSubmit,className,...props}: WordFormProps) => {
     const [word,setWord] = useState("");
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -34,8 +33,8 @@ export const WordForm = ({onWordSubmit,disabled,className,...props}: WordFormPro
         <form className={cn("flex flex-col items-center gap-4", className)}
         onSubmit={handleSubmit} {...props}>
             <Input className="text-center" type="text" placeholder="Ingrese una palabra" maxLength={20} 
-            value={word} onChange={handleInputChange} disabled={disabled}/>
-            <Button type="submit" disabled={disabled}>Enviar</Button>
+            value={word} onChange={handleInputChange}/>
+            <Button type="submit">Enviar</Button>
         </form>
     )
 }

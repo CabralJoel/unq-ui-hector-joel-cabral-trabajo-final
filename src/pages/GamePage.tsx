@@ -1,3 +1,4 @@
+import { GameOverModal } from "@/components/GameOverModal";
 import { ScorePanel } from "@/components/ScorePanel";
 import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
@@ -7,9 +8,11 @@ const TIMER = 3;
 
 export default function GamePage() {
     const [words,setWords] = useState<string[]>([]);
-    const [score,setScore] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState(TIMER);
     const [gameStarted, setGameStarted] = useState(false);
+    const [gameOver, setGameOver] = useState(false);
+
+    const score = words.reduce((total, word) => total + word.length,0,);
 
     const handleWordSubmit  = (word:string)=>{
         console.log(word)
@@ -19,17 +22,20 @@ export default function GamePage() {
         }
 
         setTimeRemaining(TIMER);
-        setScore((previousScore) => previousScore + 1);
         setWords((previousWords) => [...previousWords, word]);
     }
 
     const handleGameOver = () => {
         console.log("fin de la partida");
 
-        setWords([]);
         setGameStarted(false);
+        setGameOver(true);
+    }
+
+    const handleNewGame = () => {
+        setGameOver(false);
         setTimeRemaining(TIMER);
-        setScore(0);
+        setWords([]);
     }
 
     useEffect(() => {
@@ -37,7 +43,7 @@ export default function GamePage() {
 
     const interval = setInterval(() => {
         setTimeRemaining((previousTime) => {
-            if (previousTime <= 1) {
+            if (previousTime === 0) {
                 clearInterval(interval);
                 handleGameOver();
 
@@ -58,16 +64,21 @@ export default function GamePage() {
         </header>
 
         <div className="flex flex-1 py-8">
-            <WordsHistory className="min-w-101" words={words}/>
+            <WordsHistory className="min-w-101 max-h-690" words={words}/>
             <section className="flex flex-col flex-2 items-center gap-8">
-                    <span>Tiempo: {gameStarted ? String(timeRemaining).padStart(2, "0") : "--"}</span>
+                <span>Tiempo: {gameStarted ? String(timeRemaining).padStart(2, "0") : "--"}</span>
                 <div>letra actual a usar</div>
                 <WordForm className="justify-center" onWordSubmit={handleWordSubmit } />
                 <div>mensaje a mostrar</div>
             </section>
             <ScorePanel className="min-w-101" score={score}/>
         </div>
-        
+        {gameOver && (
+            <GameOverModal
+            words={words}
+            onClose={handleNewGame}
+        />
+        )}
     </main >
     );
 }
