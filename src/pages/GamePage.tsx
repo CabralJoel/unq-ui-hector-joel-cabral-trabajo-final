@@ -2,10 +2,11 @@ import { GameOverModal } from "@/components/GameOverModal";
 import { ScorePanel } from "@/components/ScorePanel";
 import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
+import { getLeaderboard, saveScore } from "@/services/leaderboard";
 import { validateWord } from "@/services/words";
 import { useEffect, useState } from "react";
 
-const TIMER = 15;
+const TIMER = 5;
 
 type GameStatus ="waiting" | "playing" | "game-over";
 
@@ -14,6 +15,7 @@ export default function GamePage() {
     const [timeRemaining, setTimeRemaining] = useState(TIMER);
     const [gameStatus, setGameStatus] = useState<GameStatus>("waiting");
     const [error, setError] = useState("");
+    const [leaderboard,setLeaderboard] = useState<number[]>(()=>getLeaderboard());
 
     const score = words.reduce((total, word) => total + word.length,0,);
 
@@ -56,6 +58,8 @@ export default function GamePage() {
     const handleGameOver = () => {
         setGameStatus("game-over");
         setError("")
+        saveScore(score);
+        setLeaderboard(getLeaderboard());
     }
 
     const handleNewGame = () => {
@@ -65,14 +69,18 @@ export default function GamePage() {
     }
 
     useEffect(() => {
+        if(timeRemaining===0){
+            handleGameOver();
+        }
+    }, [timeRemaining]);
+
+    useEffect(() => {
     if (gameStatus !== "playing") return;
 
     const interval = setInterval(() => {
         setTimeRemaining((previousTime) => {
             if (previousTime === 0) {
                 clearInterval(interval);
-                handleGameOver();
-
                 return 0;
             }
 
@@ -100,7 +108,7 @@ export default function GamePage() {
                     
                 <span className="text-center">{error}</span>
             </section>
-            <ScorePanel className="min-w-101" score={score}/>
+            <ScorePanel className="min-w-101" score={score} bestsCores={leaderboard}/>
         </div>
         {gameStatus === "game-over" && (
             <GameOverModal

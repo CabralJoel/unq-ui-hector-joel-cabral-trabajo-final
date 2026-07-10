@@ -16,7 +16,7 @@ export const WordsHistory=({words,className,...props}:WordsHistoryProps)=>{
                 <p>{lastWord ?? "-"}</p>
             </section>
 
-            <section className="flex flex-col min-h-0 text-center p-4 gap-2 ">
+            <section className="flex flex-col min-h-0 text-center p-4 gap-2">
                 <h2>Palabras usadas</h2>
                 {history.length === 0 ? (
                     <p>Todavía no hay palabras</p>
