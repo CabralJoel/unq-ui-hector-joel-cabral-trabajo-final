@@ -1,27 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
 import { cn } from "@/lib/utils";
 
 type WordFormProps = React.ComponentProps<"form"> & {
-    onWordSubmit: (word: string) => void;
+    onWordSubmit: (word: string) => Promise<boolean>;
     onWordChange?: () => void;
+    reset?:string;
 };
 
 
-export const WordForm = ({onWordSubmit,onWordChange,className,...props}: WordFormProps) => {
+export const WordForm = ({onWordSubmit,onWordChange,reset,className,...props}: WordFormProps) => {
     const [word,setWord] = useState("");
+    const [pending,setPending] = useState(false);
 
-    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setPending(true);
 
         const formattedWord = word.trim().toUpperCase();
 
-        if (!formattedWord) return;
+        if (!formattedWord){
+            setWord("");
+            setPending(false);
+            return;
+        } 
 
-        onWordSubmit(formattedWord);
+        const validated = await onWordSubmit(formattedWord);
 
-        setWord("");
+        if(validated){
+            setWord("");
+        }
+
+        setPending(false);
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,) => {
@@ -31,13 +42,17 @@ export const WordForm = ({onWordSubmit,onWordChange,className,...props}: WordFor
         onWordChange?.();
     };
 
+    useEffect(()=>{
+        setWord("");
+    },[reset])
+
     return(
         <form className={cn("flex flex-col items-center gap-4", className)}
         onSubmit={handleSubmit} {...props}>
-            <Input className="text-center" type="text" placeholder="Ingrese una palabra" maxLength={20}
+            <Input className="text-center" type="text" placeholder="Ingrese una palabra" maxLength={25}
             spellCheck={false} autoCorrect="off" autoComplete="off"
             value={word} onChange={handleInputChange}/>
-            <Button type="submit">Enviar</Button>
+            <Button type="submit" disabled={pending}>Enviar</Button>
         </form>
     )
 }

@@ -5,7 +5,7 @@ import { WordsHistory } from "@/components/WordsHistory";
 import { validateWord } from "@/services/words";
 import { useEffect, useState } from "react";
 
-const TIMER = 3;
+const TIMER = 15;
 
 type GameStatus ="waiting" | "playing" | "game-over";
 
@@ -22,33 +22,40 @@ export default function GamePage() {
 
         try{
             if(lastWord && word.at(0) !== lastWord.at(-1)){
-                throw new Error("La palabra no respeta la regla de encadenamiento");
+                setError("La palabra no respeta la regla de encadenamiento");
+                return false;
             }
 
             if(words.includes(word)){
-                throw new Error("La palabra ya fue utilizada");
+                setError("La palabra ya fue utilizada");
+                return false;
             }
 
             const exists = await validateWord(word);
 
             if (!exists) {
-                throw new Error("La palabra no existe.");
+                setError("La palabra no existe.");
+                return false;
             }
 
-            if (gameStatus !== "playing") {
+            if (gameStatus === "waiting") {
                 setGameStatus("playing");
             }
 
-            setTimeRemaining(TIMER);
             setWords((previousWords) => [...previousWords, word]);
+            setTimeRemaining(TIMER);
+
+            return true
         }
         catch(e:any){
-            setError(e.message);
+            setError("No fue posible validar la palabra");
+            return false
         }
     }
 
     const handleGameOver = () => {
         setGameStatus("game-over");
+        setError("")
     }
 
     const handleNewGame = () => {
@@ -84,11 +91,14 @@ export default function GamePage() {
 
         <div className="flex flex-1 py-8">
             <WordsHistory className="min-w-101 max-h-172.5" words={words}/>
-            <section className="flex flex-col flex-2 items-center gap-8">
+            <section className="flex flex-col flex-2 items-center gap-8 p-4">
                 <span>Tiempo: {gameStatus === "playing" ? String(timeRemaining).padStart(2, "0") : "--"}</span>
-                <div>letra actual a usar</div>
-                <WordForm className="justify-center" onWordSubmit={handleWordSubmit } onWordChange={()=>setError("")}/>
-                <div>{error}</div>
+
+                <span>Letra a usar: {words.length > 0 ? words.at(-1)?.at(-1)?.toUpperCase() : "-"}</span>
+
+                <WordForm className="justify-center" onWordSubmit={handleWordSubmit } onWordChange={()=>setError("")} reset={gameStatus}/>
+                    
+                <span className="text-center">{error}</span>
             </section>
             <ScorePanel className="min-w-101" score={score}/>
         </div>
