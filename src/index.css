@@ -26,6 +26,7 @@
   }
   input{
     text-decoration: none;
+    outline: red;
   }
 
   button {
@@ -44,4 +45,9 @@
   p {
     text-wrap: pretty;
   }
+}
+@theme{
+  --color-background:#2F4C73;
+  --color-modal:#3f6e97;
+  --color-button:#4f7db4;
 }

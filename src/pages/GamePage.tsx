@@ -84,14 +84,14 @@ export default function GamePage() {
 }, [gameStatus]);
 
     return (
-    <main className="flex flex-col h-svh p-8">
+    <main className="flex flex-col h-svh p-8 bg-background text-white">
         <header className="flex justify-center py-8">
             <h1 className="text-3xl">Palabras encadenadas</h1>
         </header>
 
         <div className="flex flex-1 py-8">
             <WordsHistory className="min-w-101 max-h-172.5" words={words}/>
-            <section className="flex flex-col flex-2 items-center gap-8 p-4">
+            <section className="flex flex-col flex-2 items-center gap-8 px-4 py-12">
                 <span>Tiempo: {gameStatus === "playing" ? String(timeRemaining).padStart(2, "0") : "--"}</span>
 
                 <span>Letra a usar: {words.length > 0 ? words.at(-1)?.at(-1)?.toUpperCase() : "-"}</span>

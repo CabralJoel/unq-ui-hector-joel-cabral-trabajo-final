@@ -12,7 +12,7 @@ export const GameOverModal = ({words,onClose}:GameOverModalProps)=>{
     
     return(
         <div className="flex items-center justify-center z-10 fixed inset-0 bg-black/20 ">
-            <div className="flex flex-col items-center max-w-2xl rounded-lg border-2 p-10 gap-8 bg-blue-400 shadow-2xl">
+            <div className="flex flex-col items-center max-w-2xl rounded-lg border-2 p-10 gap-8 bg-modal shadow-2xl">
                 <h2 className="text-2xl">¡Partida terminada!</h2>
                 <span>Puntaje</span>
                 <span className="text-lg">{score}</span>
