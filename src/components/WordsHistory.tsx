@@ -10,14 +10,18 @@ export const WordsHistory=({words,className,...props}:WordsHistoryProps)=>{
 
     return(
         <aside className={cn("flex flex-col border rounded",className)} {...props}>
-            <section className="flex flex-col border-b text-center p-4 gap-2">
-                <h2 >Última palabra</h2>
 
+            <section className="flex flex-col border-b text-center p-4 gap-2">
+
+                <h2 >Última palabra</h2>
                 <p>{lastWord ?? "-"}</p>
+
             </section>
 
             <section className="flex flex-col min-h-0 text-center p-4 gap-2">
+
                 <h2>Palabras usadas</h2>
+
                 {history.length === 0 ? (
                     <p>Todavía no hay palabras</p>
                 ) : (

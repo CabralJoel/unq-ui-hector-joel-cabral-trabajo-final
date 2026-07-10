@@ -49,10 +49,13 @@ export const WordForm = ({onWordSubmit,onWordChange,reset,className,...props}: W
     return(
         <form className={cn("flex flex-col items-center gap-4", className)}
         onSubmit={handleSubmit} {...props}>
+
             <Input className="text-center" type="text" placeholder="Ingrese una palabra" maxLength={25}
             spellCheck={false} autoCorrect="off" autoComplete="off"
             value={word} onChange={handleInputChange}/>
+
             <Button type="submit" disabled={pending}>Enviar</Button>
+            
         </form>
     )
 }

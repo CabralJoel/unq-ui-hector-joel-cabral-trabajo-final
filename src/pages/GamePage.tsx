@@ -2,11 +2,11 @@ import { GameOverModal } from "@/components/GameOverModal";
 import { ScorePanel } from "@/components/ScorePanel";
 import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
-import { getLeaderboard, saveScore } from "@/services/leaderboard";
+import { getLeaderboard, saveScore, type LeaderboardScore } from "@/services/leaderboard";
 import { validateWord } from "@/services/words";
 import { useEffect, useState } from "react";
 
-const TIMER = 5;
+const TIMER = 1;
 
 type GameStatus ="waiting" | "playing" | "game-over";
 
@@ -15,7 +15,7 @@ export default function GamePage() {
     const [timeRemaining, setTimeRemaining] = useState(TIMER);
     const [gameStatus, setGameStatus] = useState<GameStatus>("waiting");
     const [error, setError] = useState("");
-    const [leaderboard,setLeaderboard] = useState<number[]>(()=>getLeaderboard());
+    const [leaderboard,setLeaderboard] = useState<LeaderboardScore[]>(()=>getLeaderboard());
 
     const score = words.reduce((total, word) => total + word.length,0,);
 
@@ -58,11 +58,13 @@ export default function GamePage() {
     const handleGameOver = () => {
         setGameStatus("game-over");
         setError("")
-        saveScore(score);
-        setLeaderboard(getLeaderboard());
+        
     }
 
-    const handleNewGame = () => {
+    const handleNewGame = (name:string) => {
+        saveScore({name,score});
+        setLeaderboard(getLeaderboard());
+        
         setGameStatus("waiting");
         setTimeRemaining(TIMER);
         setWords([]);
@@ -93,13 +95,17 @@ export default function GamePage() {
 
     return (
     <main className="flex flex-col h-svh p-8 bg-background text-white">
+
         <header className="flex justify-center py-8">
             <h1 className="text-3xl">Palabras encadenadas</h1>
         </header>
 
         <div className="flex flex-1 py-8">
+
             <WordsHistory className="min-w-101 max-h-172.5" words={words}/>
+
             <section className="flex flex-col flex-2 items-center gap-8 px-4 py-12">
+
                 <span>Tiempo: {gameStatus === "playing" ? String(timeRemaining).padStart(2, "0") : "--"}</span>
 
                 <span>Letra a usar: {words.length > 0 ? words.at(-1)?.at(-1)?.toUpperCase() : "-"}</span>
@@ -107,9 +113,12 @@ export default function GamePage() {
                 <WordForm className="justify-center" onWordSubmit={handleWordSubmit } onWordChange={()=>setError("")} reset={gameStatus}/>
                     
                 <span className="text-center">{error}</span>
+                
             </section>
+
             <ScorePanel className="min-w-101" score={score} bestsCores={leaderboard}/>
         </div>
+
         {gameStatus === "game-over" && (
             <GameOverModal
             words={words}
