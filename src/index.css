@@ -1,53 +1,53 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "PressStart2P";
-  src: url("./assets/fonts/PressStart2P-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
+	font-family: "PressStart2P";
+	src: url("./assets/fonts/PressStart2P-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
 }
 
 @layer base {
-  html,
-  body,
-  #root {
-    min-height: 100svh;
-  }
+	html,
+	body,
+	#root {
+		min-height: 100svh;
+	}
 
-  body {
-    font-family: "PressStart2P", monospace;
-  }
+	body {
+		font-family: "PressStart2P", monospace;
+	}
 
-  button,
-  input,
-  textarea,
-  select {
-    font: inherit;
-  }
-  input{
-    text-decoration: none;
-    outline: red;
-  }
+	button,
+	input,
+	textarea,
+	select {
+		font: inherit;
+	}
+	input {
+		text-decoration: none;
+		outline: red;
+	}
 
-  button {
-    cursor: pointer;
-  }
+	button {
+		cursor: pointer;
+	}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    text-wrap: balance;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		text-wrap: balance;
+	}
 
-  p {
-    text-wrap: pretty;
-  }
+	p {
+		text-wrap: pretty;
+	}
 }
-@theme{
-  --color-background:#2F4C73;
-  --color-modal:#3f6e97;
-  --color-button:#4f7db4;
+@theme {
+	--color-background: #2f4c73;
+	--color-modal: #3f6e97;
+	--color-button: #4f7db4;
 }
