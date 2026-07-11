@@ -4,11 +4,7 @@ import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
 import { normalizeWord } from "@/lib/utils";
 import { validateGameWord } from "@/lib/validations";
-import {
-	getLeaderboard,
-	saveScore,
-	type LeaderboardScore,
-} from "@/services/leaderboard";
+import {getLeaderboard,saveScore,type LeaderboardScore,} from "@/services/leaderboard";
 import { validateWord } from "@/services/words";
 import { useEffect, useState } from "react";
 
@@ -42,6 +38,7 @@ export default function GamePage() {
 		setWord(formattedWord);
 	};
 
+	//SUBMIT CON VALIDACIONES
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setPending(true);
