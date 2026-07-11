@@ -1,5 +1,5 @@
-import { AppRoutes } from "./routes/AppRoutes.tsx";
+import GamePage from "./pages/GamePage.tsx";
 
 export const App = () => {
-	return <AppRoutes />;
+	return <GamePage />;
 };
