@@ -1,58 +1,25 @@
-import { useEffect, useState } from "react";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
 import { cn } from "@/lib/utils";
 
 type WordFormProps = React.ComponentProps<"form"> & {
-	onWordSubmit: (word: string) => Promise<boolean>;
-	onWordChange?: () => void;
+	handleSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
+	handleInputChange: (
+		e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
+	) => void;
+	value: string;
+	pending: boolean;
 	reset?: string;
 };
 
 export const WordForm = ({
-	onWordSubmit,
-	onWordChange,
-	reset,
+	handleSubmit,
+	handleInputChange,
+	value,
+	pending,
 	className,
 	...props
 }: WordFormProps) => {
-	const [word, setWord] = useState("");
-	const [pending, setPending] = useState(false);
-
-	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setPending(true);
-
-		const formattedWord = word.trim().toUpperCase();
-
-		if (!formattedWord) {
-			setWord("");
-			setPending(false);
-			return;
-		}
-
-		const validated = await onWordSubmit(formattedWord);
-
-		if (validated) {
-			setWord("");
-		}
-
-		setPending(false);
-	};
-
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
-	) => {
-		const value = e.target.value;
-
-		setWord(value);
-		onWordChange?.();
-	};
-
-	useEffect(() => {
-		setWord("");
-	}, [reset]);
-
 	return (
 		<form
 			className={cn("flex flex-col items-center gap-4", className)}
@@ -67,7 +34,7 @@ export const WordForm = ({
 				spellCheck={false}
 				autoCorrect="off"
 				autoComplete="off"
-				value={word}
+				value={value}
 				onChange={handleInputChange}
 			/>
 

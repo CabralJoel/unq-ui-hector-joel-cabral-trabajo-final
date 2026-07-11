@@ -1,32 +1,46 @@
-# unq-ui-matias--francisco-deo-trabajo-final
+unq-ui-hector-joel-cabral-trabajo-final
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Palabras Encadenadas
 
-Currently, two official plugins are available:
+Juego de palabras encadenadas desarrollado con React, TypeScript y Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Requisitos previos
 
-## React Compiler
+Antes de instalar el proyecto se necesita tener instalado:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* Node.js (versión recomendada: LTS)
+* npm (incluido con Node.js)
 
-## Expanding the Oxlint configuration
+## Descargar e instalar el proyecto
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Clonar el repositorio:
 
-```json
-{
-	"$schema": "./node_modules/oxlint/configuration_schema.json",
-	"plugins": ["react", "typescript", "oxc"],
-	"options": {
-		"typeAware": true
-	},
-	"rules": {
-		"react/rules-of-hooks": "error",
-		"react/only-export-components": ["warn", { "allowConstantExport": true }]
-	}
-}
+```bash
+git clone https://github.com/CabralJoel/unq-ui-hector-joel-cabral-trabajo-final.git
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Ingresar al directorio del proyecto:
+
+```bash
+cd unq-ui-hector-joel-cabral-trabajo-final
+```
+
+Instalar las dependencias:
+
+```bash
+npm install
+```
+
+## Ejecutar el proyecto localmente
+
+Para iniciar el servidor de desarrollo:
+
+```bash
+npm run dev
+```
+
+Luego abrir en el navegador la dirección indicada por Vite, normalmente:
+
+```
+http://localhost:5173
+```

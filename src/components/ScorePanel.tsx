@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Leaderboard } from "./LeaderBoard";
 import type { LeaderboardScore } from "@/services/leaderboard";
+import { Leaderboard } from "./Leaderboard";
 
 type ScorePanelProps = React.ComponentProps<"div"> & {
 	score: number;
