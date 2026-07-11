@@ -19,13 +19,13 @@ export const WordsHistory = ({
 				<p>{lastWord ?? "-"}</p>
 			</section>
 
-			<section className="flex flex-col min-h-0 text-center p-4 gap-2">
+			<section className="flex flex-col min-h-0 text-center p-4 gap-4">
 				<h2>Palabras usadas</h2>
 
 				{history.length === 0 ? (
 					<p>Todavía no hay palabras</p>
 				) : (
-					<ul className="space-y-2 overflow-y-auto">
+					<ul className="space-y-4 overflow-y-auto">
 						{history.map((word, index) => (
 							<li key={`${word}-${index}`}>{word}</li>
 						))}
