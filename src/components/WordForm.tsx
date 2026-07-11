@@ -23,15 +23,13 @@ export const WordForm = ({
 		e.preventDefault();
 		setPending(true);
 
-		const formattedWord = word.trim().toUpperCase();
-
-		if (!formattedWord) {
+		if (!word) {
 			setWord("");
 			setPending(false);
 			return;
 		}
 
-		const validated = await onWordSubmit(formattedWord);
+		const validated = await onWordSubmit(word);
 
 		if (validated) {
 			setWord("");
@@ -45,7 +43,9 @@ export const WordForm = ({
 	) => {
 		const value = e.target.value;
 
-		setWord(value);
+		const formattedWord = value.trim().toUpperCase();
+
+		setWord(formattedWord);
 		onWordChange?.();
 	};
 
