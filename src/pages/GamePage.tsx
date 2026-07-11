@@ -2,6 +2,8 @@ import { GameOverModal } from "@/components/GameOverModal";
 import { ScorePanel } from "@/components/ScorePanel";
 import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
+import { normalizeWord } from "@/lib/utils";
+import { validateGameWord } from "@/lib/validations";
 import {
 	getLeaderboard,
 	saveScore,
@@ -18,53 +20,74 @@ export default function GamePage() {
 	const [words, setWords] = useState<string[]>([]);
 	const [timeRemaining, setTimeRemaining] = useState(TIMER);
 	const [gameStatus, setGameStatus] = useState<GameStatus>("waiting");
+	const [word, setWord] = useState("");
+	const [pending, setPending] = useState(false);
 	const [error, setError] = useState("");
 	const [leaderboard, setLeaderboard] = useState<LeaderboardScore[]>(() =>
 		getLeaderboard(),
 	);
 
-	const score = words.reduce((total, word) => total + word.length, 0);
+	const score = words.reduce((total, usedWord) => total + usedWord.length, 0);
 
-	const handleWordSubmit = async (word: string) => {
-		const lastWord = words.at(-1);
+	//LOGICA DEL FORM
+	const handleInputChange = (
+		e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
+	) => {
+		const value = e.target.value;
 
-		try {
-			if (lastWord && word.at(0) !== lastWord.at(-1)) {
-				setError("La palabra no respeta la regla de encadenamiento");
-				return false;
-			}
+		setError("");
 
-			if (words.includes(word)) {
-				setError("La palabra ya fue utilizada");
-				return false;
-			}
+		const formattedWord = value.trim().toUpperCase();
 
-			const exists = await validateWord(word);
+		setWord(formattedWord);
+	};
 
-			if (!exists) {
-				setError("La palabra no existe.");
-				return false;
-			}
+	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setPending(true);
 
-			if (gameStatus === "waiting") {
-				setGameStatus("playing");
-			}
-
-			setWords((previousWords) => [...previousWords, word]);
-			setTimeRemaining(TIMER);
-
-			return true;
-		} catch (e: any) {
-			setError("No fue posible validar la palabra");
-			return false;
+		if (!word) {
+			setPending(false);
+			return;
 		}
+
+		const normalizedWord = normalizeWord(word);
+
+		const validation = validateGameWord(normalizedWord, words);
+
+		if (!validation.valid) {
+			setError(validation.error);
+			setPending(false);
+			return;
+		}
+
+		validateWord(normalizedWord)
+			.then((exists) => {
+				if (!exists) {
+					setError("La palabra no existe.");
+					return;
+				}
+
+				setWords((previousWords) => [...previousWords, normalizedWord]);
+				setWord("");
+				setTimeRemaining(TIMER);
+				
+			})
+			.catch(() => setError("No fue posible validar la palabra"))
+			.finally(() =>{
+				if (gameStatus === "waiting") {
+					setGameStatus("playing");
+				}
+				setPending(false)});
 	};
 
 	const handleGameOver = () => {
 		setGameStatus("game-over");
+		setWord("");
 		setError("");
 	};
 
+	//GUARDAR PUNTAJE Y JUEGO NUEVO
 	const handleNewGame = (name: string) => {
 		saveScore({ name, score });
 		setLeaderboard(getLeaderboard());
@@ -74,6 +97,7 @@ export default function GamePage() {
 		setWords([]);
 	};
 
+	//LOGICA DEL TIMER
 	useEffect(() => {
 		if (timeRemaining === 0) {
 			handleGameOver();
@@ -120,9 +144,10 @@ export default function GamePage() {
 					</span>
 
 					<WordForm
-						className="justify-center"
-						onWordSubmit={handleWordSubmit}
-						onWordChange={() => setError("")}
+						handleSubmit={handleSubmit}
+						handleInputChange={handleInputChange}
+						value={word}
+						pending={pending}
 						reset={gameStatus}
 					/>
 
