@@ -53,8 +53,8 @@ export const GameOverModal = ({ words, onClose }: GameOverModalProps) => {
 						</p>
 					</div>
 
-					<Button className="bg-modalbutton" disabled={name.length !== 3} type="submit">
-						Guardar y jugar otra vez
+					<Button className="bg-modalbutton" type="submit">
+						{name.length === 0 ? "Jugar otra vez" : "Guardar y jugar otra vez "}
 					</Button>
 				</form>
 			</div>

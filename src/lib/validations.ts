@@ -12,7 +12,7 @@ export function validateGameWord(
 	if (lastWord && word.at(0) !== lastWord.at(-1)) {
 		return {
 			valid: false,
-			error: "La palabra no respeta la regla de encadenamiento",
+			error: `La palabra debe comenzar con "${lastWord.at(-1)?.toUpperCase()}".`,
 		};
 	}
 

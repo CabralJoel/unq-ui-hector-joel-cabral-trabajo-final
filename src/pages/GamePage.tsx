@@ -86,8 +86,10 @@ export default function GamePage() {
 
 	//GUARDAR PUNTAJE Y JUEGO NUEVO
 	const handleNewGame = (name: string) => {
-		saveScore({ name, score });
-		setLeaderboard(getLeaderboard());
+		if(name.length > 0){
+			saveScore({ name, score });
+			setLeaderboard(getLeaderboard());
+		}
 
 		setGameStatus("waiting");
 		setTimeRemaining(TIMER);
