@@ -46,14 +46,14 @@ export const GameOverModal = ({ words, onClose }: GameOverModalProps) => {
 						onChange={handleInputChange}
 					/>
 					<span className="text-lg">Palabras usadas: {words.length}</span>
-					
+
 					<div className="flex flex-col max-h-50 gap-8 items-center overflow-y-auto">
 						<p className="wrap-break-word">
 							{words.length === 0 ? "-" : words.join(" → ")}
 						</p>
 					</div>
 
-					<Button disabled={name.length !== 3} type="submit">
+					<Button className="bg-modalbutton" disabled={name.length !== 3} type="submit">
 						Guardar y jugar otra vez
 					</Button>
 				</form>
