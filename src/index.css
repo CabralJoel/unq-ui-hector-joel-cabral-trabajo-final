@@ -45,6 +45,19 @@
 	p {
 		text-wrap: pretty;
 	}
+
+	*::-webkit-scrollbar {
+		width: 6px;              
+	}
+
+	*::-webkit-scrollbar-track {
+		background: #2f4c73;        
+	}
+
+	*::-webkit-scrollbar-thumb {
+		border-radius: 10px;      
+		border: 3px solid white; 
+	}
 }
 @theme {
 	--color-background: #2f4c73;

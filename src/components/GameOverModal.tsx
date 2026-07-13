@@ -45,10 +45,9 @@ export const GameOverModal = ({ words, onClose }: GameOverModalProps) => {
 						maxLength={3}
 						onChange={handleInputChange}
 					/>
-
-					<div className="flex flex-col gap-8 items-center">
-						<span className="text-lg">Palabras usadas: {words.length}</span>
-
+					<span className="text-lg">Palabras usadas: {words.length}</span>
+					
+					<div className="flex flex-col max-h-50 gap-8 items-center overflow-y-auto">
 						<p className="wrap-break-word">
 							{words.length === 0 ? "-" : words.join(" → ")}
 						</p>
