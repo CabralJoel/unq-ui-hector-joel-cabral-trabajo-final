@@ -139,7 +139,7 @@ export default function GamePage() {
 					</span>
 
 					<span>
-						Letra a usar:{" "}
+						Debe comenzar con:{" "}
 						{words.length > 0 ? words.at(-1)?.at(-1)?.toUpperCase() : "-"}
 					</span>
 
