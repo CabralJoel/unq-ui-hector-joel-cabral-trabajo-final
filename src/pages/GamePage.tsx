@@ -65,6 +65,10 @@ export default function GamePage() {
 					return;
 				}
 
+				if (gameStatus === "waiting") {
+					setGameStatus("playing");
+				}
+
 				setWords((previousWords) => [...previousWords, normalizedWord]);
 				setWord("");
 				setTimeRemaining(TIMER);
@@ -72,9 +76,6 @@ export default function GamePage() {
 			})
 			.catch(() => setError("No fue posible validar la palabra"))
 			.finally(() =>{
-				if (gameStatus === "waiting") {
-					setGameStatus("playing");
-				}
 				setPending(false)});
 	};
 
