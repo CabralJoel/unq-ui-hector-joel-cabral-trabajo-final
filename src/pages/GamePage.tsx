@@ -2,11 +2,11 @@ import { GameOverModal } from "@/components/GameOverModal";
 import { ScorePanel } from "@/components/ScorePanel";
 import { WordForm } from "@/components/WordForm";
 import { WordsHistory } from "@/components/WordsHistory";
-import { normalizeWord } from "@/lib/utils";
+import { calculateScore, normalizeWord } from "@/lib/utils";
 import { validateGameWord } from "@/lib/validations";
 import {getLeaderboard,saveScore,type LeaderboardScore,} from "@/services/leaderboard";
 import { validateWord } from "@/services/words";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const TIMER = 15;
 
@@ -23,7 +23,7 @@ export default function GamePage() {
 		getLeaderboard(),
 	);
 
-	const score = words.reduce((total, usedWord) => total + usedWord.length, 0);
+	const score = calculateScore(words);
 
 	//LOGICA DEL FORM
 	const handleInputChange = (
@@ -39,7 +39,7 @@ export default function GamePage() {
 	};
 
 	//SUBMIT CON VALIDACIONES
-	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setPending(true);
 
@@ -79,11 +79,11 @@ export default function GamePage() {
 				setPending(false)});
 	};
 
-	const handleGameOver = () => {
+	const handleGameOver = useCallback(() => {
 		setGameStatus("game-over");
 		setWord("");
 		setError("");
-	};
+	},[]);
 
 	//GUARDAR PUNTAJE Y JUEGO NUEVO
 	const handleNewGame = (name: string) => {
@@ -102,7 +102,7 @@ export default function GamePage() {
 		if (timeRemaining === 0) {
 			handleGameOver();
 		}
-	}, [timeRemaining]);
+	}, [timeRemaining,handleGameOver]);
 
 	useEffect(() => {
 		if (gameStatus !== "playing") return;

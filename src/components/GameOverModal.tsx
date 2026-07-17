@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
+import { calculateScore } from "@/lib/utils";
 
 type GameOverModalProps = React.ComponentProps<"div"> & {
 	words: string[];
@@ -10,7 +11,7 @@ type GameOverModalProps = React.ComponentProps<"div"> & {
 export const GameOverModal = ({ words, onClose }: GameOverModalProps) => {
 	const [name, setName] = useState("");
 
-	const score = words.reduce((total, word) => total + word.length, 0);
+	const score = calculateScore(words);
 
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
